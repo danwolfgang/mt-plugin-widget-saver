@@ -1,0 +1,11 @@
+id: WidgetSaver
+name: 'Widget Saver'
+author_name: 'Dan Wolfgang, uiNNOVATIONS'
+author_link: 'http://uinnovations.com'
+description: 'Add the ability to <em>not</em> refresh Widgets and Widget Sets when refreshing templates.'
+version: 1.0
+
+callbacks:
+    MT::App::CMS::template_source.refresh_templates: $WidgetSaver::WidgetSaver::Plugin::template_source
+    DefaultTemplateFilter: $WidgetSaver::WidgetSaver::Plugin::template_filter
+
