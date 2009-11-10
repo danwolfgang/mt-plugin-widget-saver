@@ -23,6 +23,13 @@ END_TMPL
 sub template_filter {
     my ($cb, $templates) = @_;
     my $app = MT->instance;
+    my $blog_id;
+    if ($app->blog) {
+        $blog_id = $app->blog->id;
+    }
+    else {
+        $blog_id = '0'; # 0 for system Widgets/Widget Sets.
+    }
 
     my $count = 0; # To grab the current array item index.
     foreach my $tmpl (@$templates) {
@@ -31,7 +38,7 @@ sub template_filter {
             if ( $app->param('widget_set_saver') ) {
                 # Try to count a Widget Set in this blog with the same identifier.
                 use MT::Template;
-                my $installed = MT::Template->count( { blog_id    => $app->blog->id,
+                my $installed = MT::Template->count( { blog_id    => $blog_id,
                                                        type       => 'widgetset',
                                                        identifier => $tmpl->{'identifier'}, } );
                 # If a Widget Set by this name was found, remove the template from the
@@ -48,7 +55,7 @@ sub template_filter {
             if ( $app->param('widget_saver') ) { 
                 # Try to count a Widget in this blog with the same identifier.
                 use MT::Template;
-                my $installed = MT::Template->count( { blog_id    => $app->blog->id,
+                my $installed = MT::Template->count( { blog_id    => $blog_id,
                                                        type       => 'widget',
                                                        identifier => $tmpl->{'identifier'}, } );
                 # If a Widget by this name was found, remove the template from the
